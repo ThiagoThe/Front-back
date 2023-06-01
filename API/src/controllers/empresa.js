@@ -128,4 +128,31 @@ module.exports = {
     criarOuAtualizar("src/database/empresas.json", alterarDadosDaEmpresa);
     return resposta.status(200).send({ mensagem: "Atualizou a empresa!" });
   },
+
+  async excluirEmpresa(requisicao, resposta) {
+    const { cnpj } = requisicao.params;
+    const empresas = pegarDados("src/database/empresas.json");
+
+    if (!empresas) {
+      return resposta
+        .status(400)
+        .send({ mensagem: "Não há empresas para serem excluídas" });
+    }
+
+    const existeCnpj = empresas.some((empresa) => empresa.cnpj === cnpj); //verifica se existe o cnpj
+
+    if (!existeCnpj) {
+      //se não existir o cnpj
+      return resposta
+        .status(400)
+        .send({ mensagem: `CNPJ: ${cnpj}  não encontrado` });
+    } //se existir o cnpj
+
+    const empresasFiltradas = empresas.filter(
+      (empresa) => empresa.cnpj !== cnpj
+    );
+    criarOuAtualizar("src/database/empresas.json", empresasFiltradas);
+
+    return resposta.status(200).send({ mensagem: "Excluiu a empresa!" });
+  },
 };

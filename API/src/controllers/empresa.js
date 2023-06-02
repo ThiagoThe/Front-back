@@ -1,4 +1,5 @@
 const { criarOuAtualizar, pegarDados } = require("../../utils");
+const { writeFileSync } = require("fs");
 
 module.exports = {
   async verificarEmpresa(requisicao, resposta, proximo) {
@@ -154,5 +155,10 @@ module.exports = {
     criarOuAtualizar("src/database/empresas.json", empresasFiltradas);
 
     return resposta.status(200).send({ mensagem: "Excluiu a empresa!" });
+  },
+
+  async salvarImagem(requisicao, resposta) {
+    const { originalname, buffer } = requisicao.file;
+    return resposta.status(200).send({ mensagem: "Imagem salva!" });
   },
 };

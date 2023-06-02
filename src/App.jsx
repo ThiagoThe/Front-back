@@ -42,6 +42,17 @@ function App() {
 
   return (
     <>
+      <nav>
+        <ul>
+          <a href="#"> Home</a>
+        </ul>
+        <ul>
+          <a href="#">Empresas</a>
+        </ul>
+        <ul>
+          <a href="#">Usuários</a>
+        </ul>
+      </nav>
       <div>
         <h1>Cadastro de empresa</h1>
         <form onSubmit={cadastrarEmpresa}>

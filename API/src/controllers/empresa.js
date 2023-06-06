@@ -62,10 +62,8 @@ module.exports = {
     const { busca } = requisicao.query; // Busca é o nome da empresa que o usuário vai digitar na url
     const empresas = pegarDados("src/database/empresas.json"); // Array de empresas
 
-    if (empresas.length > 0) {
-    }
-
-    if (!empresas) {
+    // Se não existir empresas ou se o array estiver vazio deve retornar 204
+    if (!empresas || empresas.length === 0) {
       return resposta.status(204).send();
     }
 

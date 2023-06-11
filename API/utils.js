@@ -24,6 +24,13 @@ function pegarDados(nomeDoArquivo) {
   }
 }
 
+function codigosDeErros(codigo) {
+  const msgs = {
+    falhaAoSalvar: "Não pode salvar!",
+    naoPodeDeletar: "Não pode deletar!",
+  };
+}
+
 function gerarID() {
   const timestamp = Date.now(); // Obtém o timestamp em milissegundos
   const random = Math.floor(Math.random() * 1000); // Gera um número aleatório entre 0 e 999
@@ -35,5 +42,6 @@ module.exports = {
   criarOuAtualizar,
   pegarDados,
   validaEmail,
+  codigosDeErros,
   gerarID,
 };

@@ -96,14 +96,14 @@ module.exports = {
         .send({ mensagem: "Não existe usuário para ser atualizado" });
     }
 
-    const usuarioId = usuarios.some((usuario) => usuario.id === parseInt(id));
+    const usuarioId = usuarios.some((usuario) => usuario.id === id);
 
     if (!usuarioId) {
       return res.status(400).send({ mensagem: "Id do usuário não encontrado" });
     }
 
     const atualizarDados = usuarios.map((usuario) => {
-      if (usuario.id === parseInt(id)) {
+      if (usuario.id === id) {
         return {
           id: usuario.id,
           nome: nome ? nome : usuario.nome,

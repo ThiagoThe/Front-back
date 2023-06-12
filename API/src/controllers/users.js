@@ -84,4 +84,36 @@ module.exports = {
       .status(200)
       .send({ mensagem: "lista", dados: usuariosFiltrados });
   },
+
+  async atualizarUsuario(req, res) {
+    const { id } = req.params;
+    const { nome, idade, email } = req.body;
+    const usuarios = pegarDados("src/database/usuarios.json");
+
+    if (!usuarios) {
+      return res
+        .status(400)
+        .send({ mensagem: "Não existe usuário para ser atualizado" });
+    }
+
+    const usuarioId = usuarios.some((usuario) => usuario.id === parseInt(id));
+
+    if (!usuarioId) {
+      return res.status(400).send({ mensagem: "Id do usuário não encontrado" });
+    }
+
+    const atualizarDados = usuarios.map((usuario) => {
+      if (usuario.id === parseInt(id)) {
+        return {
+          id: usuario.id,
+          nome: nome ? nome : usuario.nome,
+          idade: idade ? idade : usuario.idade,
+          email: email ? email : usuario.email,
+        };
+      }
+      return usuario;
+    });
+    criarOuAtualizar("src/database/usuarios.json", atualizarDados);
+    return res.status(200).send({ messagem: "usuario atualizado" });
+  },
 };

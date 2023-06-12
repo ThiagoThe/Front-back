@@ -3,11 +3,10 @@ const { writeFileSync } = require("fs");
 
 module.exports = {
   async verificarEmpresa(requisicao, resposta, proximo) {
-    console.log(requisicao.body.cnpj);
     if (!requisicao.body.cnpj) {
       return resposta.status(400).send({ erro: "A empresa não é verídica!" });
     }
-    console.log("Essa empresa é véridica!");
+
     proximo();
   },
 
@@ -157,6 +156,7 @@ module.exports = {
 
   async salvarImagem(requisicao, resposta) {
     const { originalname, buffer } = requisicao.file;
+    writeFileSync(originalname, buffer);
     return resposta.status(200).send({ mensagem: "Imagem salva!" });
   },
 };

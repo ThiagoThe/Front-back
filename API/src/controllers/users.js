@@ -116,4 +116,26 @@ module.exports = {
     criarOuAtualizar("src/database/usuarios.json", atualizarDados);
     return res.status(200).send({ messagem: "usuario atualizado" });
   },
+
+  async deletarUsuario(req, res) {
+    const { id } = req.params;
+    const usuarios = pegarDados("src/database/usuarios.json");
+
+    if (!usuarios) {
+      return res
+        .status(400)
+        .send({ mensagem: "Não existe usuário para ser deletado" });
+    }
+
+    const usuarioId = usuarios.some((usuario) => usuario.id === id);
+
+    if (!usuarioId) {
+      return res.status(400).send({ mensagem: "Id do usuário não encontrado" });
+    }
+
+    const deletarUsuario = usuarios.filter((usuario) => usuario.id !== id);
+
+    criarOuAtualizar("src/database/usuarios.json", deletarUsuario);
+    return res.status(200).send({ messagem: "usuario deletado" });
+  }
 };

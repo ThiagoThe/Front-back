@@ -9,7 +9,7 @@ module.exports = {
   async criarUsuario(req, res) {
     const { nome, idade, email } = req.body;
     const id = gerarID();
-    console.log(id);
+
     if (!nome || !idade || !email) {
       return res
         .status(400)
@@ -18,11 +18,12 @@ module.exports = {
 
     if (
       typeof nome !== "string" ||
-      typeof idade !== "number" ||
+      typeof idade !== "string" ||
       typeof email !== "string"
     ) {
       return res.status(400).json({
-        mensagem: "O campo nome e email precisam ser uma string e idade número",
+        mensagem:
+          "O campo nome e email precisam ser uma string e idade um número",
       });
     }
 
@@ -56,22 +57,7 @@ module.exports = {
     const usuarios = pegarDados("src/database/usuarios.json");
 
     if (usuarios.length > 0) {
-    }
-    if (!usuarios) {
-      return res.status(204).send();
-    }
-
-    const existeUsuarios = Object.keys(usuarios).some((propriedade) => {
-      return (
-        propriedade === "id" ||
-        propriedade === "nome" ||
-        propriedade === "idade" ||
-        propriedade === "email"
-      );
-    });
-
-    if (!existeUsuarios) {
-      return res.status(204).send();
+      return res.status(200).send(usuarios);
     }
 
     if (!busca) {
@@ -137,5 +123,5 @@ module.exports = {
 
     criarOuAtualizar("src/database/usuarios.json", deletarUsuario);
     return res.status(200).send({ messagem: "usuario deletado" });
-  }
+  },
 };

@@ -1,57 +1,12 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useUsuario } from "../contexts/userContext";
 
 function Usuarios() {
-  const [lista, setLista] = useState([]);
-  const [atualizarLista, setAtualizarLista] = useState(false);
+  const context = useUsuario();
 
-  useEffect(() => {
-    const carregar = async () => {
-      const response = await axios.get("http://localhost:3333/listarUsuario");
-      setLista(response.data?.dados || []);
-    };
-    carregar();
-  }, [atualizarLista]);
-
-  async function cadastrarUsuario(event) {
-    event.preventDefault();
-
-    const nome = event.target.nome.value;
-    const idade = event.target.idade.value;
-    const email = event.target.email.value;
-
-    const response = await axios.post("http://localhost:3333/criarUsuario", {
-      nome,
-      idade,
-      email,
-    });
-
-    setAtualizarLista(!atualizarLista);
-    alert(response.data.mensagem);
-  }
-
-  async function excluirUsuario(id) {
-    const response = await axios.delete(
-      `http://localhost:3333/deletarUsuario/${id}`
-    );
-
-    setAtualizarLista(!atualizarLista);
-    alert(response.data.mensagem);
-  }
+  const { userLista, cadastrarUsuario, excluirUsuario } = context;
 
   return (
     <>
-      <nav>
-        <ul>
-          <a href="#"> Home</a>
-        </ul>
-        <ul>
-          <a href="#">Empresas</a>
-        </ul>
-        <ul>
-          <a href="#">Usuários</a>
-        </ul>
-      </nav>
       <div>
         <h1>Página de Usuários</h1>
         <form onSubmit={cadastrarUsuario}>
@@ -68,10 +23,10 @@ function Usuarios() {
       </div>
       <div>
         <h3>Lista de Usuários</h3>
-        {!lista.length > 0 ? (
+        {!userLista.length > 0 ? (
           <p>Não há usuários cadastrados</p>
         ) : (
-          lista.map((usuario, index) => {
+          userLista.map((usuario, index) => {
             return (
               <div key={index}>
                 <p>Nome: {usuario.nome}</p>
